@@ -127,7 +127,7 @@ test('cache option', async t => {
 	const f = () => i++;
 	const memoized = mem(f, {
 		cache: new WeakMap(),
-		cacheKey: x => x
+		cacheKey: x => x,
 	});
 	const foo = {};
 	const bar = {};
@@ -181,8 +181,8 @@ test('cache rejected promises if enabled', async t => {
 			return i;
 		},
 		{
-			cachePromiseRejection: true
-		}
+			cachePromiseRejection: true,
+		},
 	);
 
 	await t.throwsAsync(memoized(), 'foo bar');

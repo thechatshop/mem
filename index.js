@@ -29,9 +29,9 @@ module.exports = (fn, options) => {
 		{
 			cacheKey: defaultCacheKey,
 			cache: new Map(),
-			cachePromiseRejection: false
+			cachePromiseRejection: false,
 		},
-		options
+		options,
 	);
 
 	if (typeof options.maxAge === 'number') {
@@ -44,7 +44,7 @@ module.exports = (fn, options) => {
 	const setData = async (key, data) => {
 		await cache.set(key, {
 			data,
-			maxAge: Date.now() + options.maxAge
+			maxAge: Date.now() + options.maxAge,
 		});
 	};
 
