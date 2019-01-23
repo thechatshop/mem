@@ -1,6 +1,6 @@
 {
 	"name": "@thechatshop/mem-p",
-	"version": "1.0.0",
+	"version": "5.0.0",
 	"description": "pMemoize functions - An optimization used to speed up consecutive function calls by caching the result of calls with identical input",
 	"scripts": {
 		"test": "ava",
