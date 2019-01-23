@@ -1,35 +1,13 @@
 {
-	"name": "mem",
-	"version": "4.0.0",
-	"description": "Memoize functions - An optimization used to speed up consecutive function calls by caching the result of calls with identical input",
-	"license": "MIT",
-	"repository": "sindresorhus/mem",
-	"author": {
-		"name": "Sindre Sorhus",
-		"email": "sindresorhus@gmail.com",
-		"url": "sindresorhus.com"
-	},
-	"engines": {
-		"node": ">=6"
-	},
+	"name": "@thechatshop/mem-p",
+	"version": "1.0.0",
+	"description": "pMemoize functions - An optimization used to speed up consecutive function calls by caching the result of calls with identical input",
 	"scripts": {
-		"test": "xo && ava"
+		"test": "ava",
+		"lint": "xo"
 	},
 	"files": [
 		"index.js"
-	],
-	"keywords": [
-		"memoize",
-		"function",
-		"mem",
-		"memoization",
-		"cache",
-		"caching",
-		"optimize",
-		"performance",
-		"ttl",
-		"expire",
-		"promise"
 	],
 	"dependencies": {
 		"map-age-cleaner": "^0.1.1",
@@ -37,8 +15,34 @@
 		"p-is-promise": "^2.0.0"
 	},
 	"devDependencies": {
-		"ava": "^1.0.1",
-		"delay": "^4.1.0",
-		"xo": "^0.23.0"
+		"ava": "^1.1.0",
+		"delay": "^4",
+		"husky": "^1",
+		"lint-staged": "^8",
+		"nodemon": "^1",
+		"xo": "^0.23"
+	},
+	"lint-staged": {
+		"*": [
+			"xo --fix",
+			"git add"
+		]
+	},
+	"xo": {
+		"prettier": true,
+		"envs": [
+			"jest",
+			"node",
+			"browser"
+		],
+		"rules": {
+			"camelcase": 1
+		}
+	},
+	"husky": {
+		"hooks": {
+			"pre-commit": "lint-staged",
+			"pre-push": "yarn test"
+		}
 	}
 }

@@ -25,11 +25,14 @@ const defaultCacheKey = (...args) => {
 };
 
 module.exports = (fn, options) => {
-	options = Object.assign({
-		cacheKey: defaultCacheKey,
-		cache: new Map(),
-		cachePromiseRejection: false
-	}, options);
+	options = Object.assign(
+		{
+			cacheKey: defaultCacheKey,
+			cache: new Map(),
+			cachePromiseRejection: false
+		},
+		options
+	);
 
 	if (typeof options.maxAge === 'number') {
 		mapAgeCleaner(options.cache);
@@ -38,25 +41,25 @@ module.exports = (fn, options) => {
 	const {cache} = options;
 	options.maxAge = options.maxAge || 0;
 
-	const setData = (key, data) => {
-		cache.set(key, {
+	const setData = async (key, data) => {
+		await cache.set(key, {
 			data,
 			maxAge: Date.now() + options.maxAge
 		});
 	};
 
-	const memoized = function (...args) {
+	const memoized = async function(...args) {
 		const key = options.cacheKey(...args);
 
-		if (cache.has(key)) {
-			const c = cache.get(key);
+		if (await cache.has(key)) {
+			const c = await cache.get(key);
 
 			return c.data;
 		}
 
 		const ret = fn.call(this, ...args);
 
-		setData(key, ret);
+		await setData(key, ret);
 
 		if (isPromise(ret) && options.cachePromiseRejection === false) {
 			// Remove rejected promises from cache unless `cachePromiseRejection` is set to `true`
@@ -73,10 +76,10 @@ module.exports = (fn, options) => {
 	return memoized;
 };
 
-module.exports.clear = fn => {
+module.exports.clear = async fn => {
 	const cache = cacheStore.get(fn);
 
 	if (cache && typeof cache.clear === 'function') {
-		cache.clear();
+		await cache.clear();
 	}
 };
